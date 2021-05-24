@@ -49,7 +49,7 @@
          {% endif %}
          {% endwith %}
          <!-- Design on bootstrap grid -->
-         <form role="form">
+         <form role="form" method="POST" action="/_submit">
             <div class="row">
                <div class="col-md-4">
                   <label>Distance</label>
@@ -67,7 +67,7 @@
                   <input type="datetime-local" name="begin_date" id="begin_date" value="2021-01-01T00:00" />
                </div>
                <div>
-
+                 <button id="submit">Submit</button>
                  <button id="display">Display</button>
                </div>
                <!-- columns 5 to 10 -->
@@ -151,7 +151,25 @@
             }
 
 
-            
+            $('#submit').click(
+                  function(){
+
+                      var control_entry = $(this).parents(".control")
+                      var km = control_entry.find("input[name='km']").val();
+                      var open = control_entry.find("input[name='open']").val();
+                      var close = control_entry.find("input[name='close']").val();
+
+                      $.getJSON(SUBMIT_URL, {km: km, open: open, close: close}).done(
+                          function(data) {
+                              console.log("Submited!");
+                          }
+                      ).fail(function(err){
+                          // In case you get an error...
+                          console.log("Error!");
+                          console.log(err);
+                      });
+                  });
+
 
             $('#display').click(
                function(e) {
